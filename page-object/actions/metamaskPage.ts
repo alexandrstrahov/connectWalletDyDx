@@ -85,7 +85,8 @@ export class MetamaskPage extends WebPage {
       this.metamaskElements.connectMetamaskPopUpButton
     );
 
-    await Promise.all([this.page.waitForEvent("close"), connectButton.click()]);
+    // await Promise.all([this.page.waitForEvent("close"), connectButton.click()]);
+    // await connectButton.click();
   }
 
   async enterPasswordsForNewWallet(password: string) {

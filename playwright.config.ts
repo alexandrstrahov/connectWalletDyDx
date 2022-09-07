@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
   use: {
     baseURL: process.env.E2E_URL || "https://trade.stage.dydx.exchange/trade",
     browserName: "chromium",
-    viewport: { width: 1600, height: 1200 },
+    viewport: { width: 1300, height: 800 },
     headless: false,
     video: "retain-on-failure",
     screenshot: "only-on-failure",

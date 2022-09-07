@@ -13,8 +13,6 @@ export class ConnectWalletScreen extends WebPage {
   readonly helpPopUpButton: Locator;
   readonly loaderIcon: Locator;
   readonly emptySpaceClosePopup: Locator;
-  readonly networkDropdown: Locator;
-  readonly showHideNetworkButton: Locator;
 
   constructor(page: Page, context?: BrowserContext) {
     super(page, context);
@@ -26,8 +24,6 @@ export class ConnectWalletScreen extends WebPage {
     this.helpPopUpButton = page.locator('[data-testid="launcher"]');
     this.loaderIcon = page.locator('img[alt="Loading..."]');
     this.emptySpaceClosePopup = page.locator('[class="_2K2b3FrILBx-50So5X3tjx"]');
-    this.networkDropdown = page.locator('[class="chip__left-icon"]');
-    this.showHideNetworkButton = page.locator('[class="network-dropdown-content--link"]');
   }
 
   async clickConnectWalletButton() {
@@ -94,11 +90,11 @@ export class ConnectWalletScreen extends WebPage {
       this.context
         .waitForEvent("page", { timeout: timeouts.shortTimeout })
         .then(async () => {
-          this.context.pages()[3];
-          await this.metamaskPage.connectMetamask()
+          const connectPage = this.context.pages()[3];
+          await this.metamaskPage.connectMetamask();
         })
         .catch(async () => {
-          this.context.pages()[3];
+          const connectPage = this.context.pages()[3];
           await this.metamaskPage.connectMetamask();
         }),
 
