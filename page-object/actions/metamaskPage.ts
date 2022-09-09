@@ -3,6 +3,7 @@ import { Page, BrowserContext, expect } from "@playwright/test";
 import { MetamaskPageElements } from "../elements/metamaskPageElements";
 import { timeouts } from "../../helpers/timeouts";
 
+
 export class MetamaskPage extends WebPage {
   readonly context: BrowserContext;
   readonly metamaskElements: MetamaskPageElements;
@@ -46,7 +47,7 @@ export class MetamaskPage extends WebPage {
       });
   }
 
-  async fullyLoginToMetamask(recoveryPhrase: string, password: string) {
+  async fullyLoginToMetamask(recoveryPhrase: string, password: string ) {
     if (!recoveryPhrase)
       throw new Error("Recovery phrase for Metamask is not set");
     if (!password) throw new Error("Password for Metamask is not set");
@@ -65,6 +66,7 @@ export class MetamaskPage extends WebPage {
     // open wallet and close info pop-up
     await this.metamaskElements.confirmButton.click();
     await this.metamaskElements.closeInfoPopUp.click();
+    await this.changeNetwork();
   }
 
   async openAccountDetails() {
@@ -72,21 +74,26 @@ export class MetamaskPage extends WebPage {
     await this.metamaskElements.accountDetailsMenuButton.click();
   }
 
-  async signMetamask(page: Page) {
-    const signButton = page.locator(
+  // async signMetamask(page: Page) {
+  //   const signButton = page.locator(
+  //     this.metamaskElements.signMetamaskRequestPopUpButton
+  //   );
+
+  //   await Promise.all([page.waitForEvent("close"), signButton.click()]);
+  // }
+
+  async signMetamask() {
+    const signButton = this.page.locator(
       this.metamaskElements.signMetamaskRequestPopUpButton
     );
 
-    await Promise.all([page.waitForEvent("close"), signButton.click()]);
+    
   }
 
   async connectMetamask() {
-    const connectButton =this.page.locator(
+    const connectButton = this.page.locator(
       this.metamaskElements.connectMetamaskPopUpButton
     );
-
-    // await Promise.all([this.page.waitForEvent("close"), connectButton.click()]);
-    // await connectButton.click();
   }
 
   async enterPasswordsForNewWallet(password: string) {
@@ -117,5 +124,13 @@ export class MetamaskPage extends WebPage {
 
       await wordSelector.click();
     }
+  }
+
+  async changeNetwork() {
+    await this.metamaskElements.networkDropdown.click();
+    await this.metamaskElements.showHideNetworks.click();
+    await this.metamaskElements.showTestNetworksToggle.click();
+    await this.metamaskElements.networkDropdown.click();
+    await this.metamaskElements.ropstenTestNetworkItem.click();
   }
 }

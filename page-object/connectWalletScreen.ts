@@ -15,6 +15,8 @@ export class ConnectWalletScreen extends WebPage {
   readonly emptySpaceClosePopup: Locator;
   readonly networkDropdown: Locator;
   readonly showHideNetworkButton: Locator;
+  readonly sendRequestsButton: Locator;
+  readonly sendRequestsButtonSelector: string = '[class="LinkWalletStep__ButtonContents-sc-90zxqz-8 kNuNYP"]';
 
   constructor(page: Page, context?: BrowserContext) {
     super(page, context);
@@ -25,9 +27,8 @@ export class ConnectWalletScreen extends WebPage {
     this.connectedStatusButton = page.locator('[id="web3-status-connected"]');
     this.helpPopUpButton = page.locator('[data-testid="launcher"]');
     this.loaderIcon = page.locator('img[alt="Loading..."]');
-    this.emptySpaceClosePopup = page.locator('[class="_2K2b3FrILBx-50So5X3tjx"]');
-    this.networkDropdown = page.locator('[class="chip__left-icon"]');
-    this.showHideNetworkButton = page.locator('[class="network-dropdown-content--link"]');
+    this.sendRequestsButton = page.locator(this.sendRequestsButtonSelector);
+
   }
 
   async clickConnectWalletButton() {
@@ -48,46 +49,46 @@ export class ConnectWalletScreen extends WebPage {
   when they are running in parallel
   */
 
-  async signMetamaskConnectionIfRequestAppeared() {
-    let triesLeft = 5;
+  // async signMetamaskConnectionIfRequestAppeared() {
+  //   let triesLeft = 5;
 
-    do {
-      await this.loaderIcon.waitFor({
-        state: "detached",
-        timeout: timeouts.shortTimeout,
-      });
-      await this.page.waitForTimeout(timeouts.timeoutForSignWindow);
+  //   do {
+  //     await this.loaderIcon.waitFor({
+  //       state: "detached",
+  //       timeout: timeouts.shortTimeout,
+  //     });
+  //     await this.page.waitForTimeout(timeouts.timeoutForSignWindow);
 
-      const pages = await this.context.pages().length;
+  //     const pages = await this.context.pages().length;
 
-      if (pages > 3) {
-        const signPage = this.context.pages()[3];
-        await this.metamaskPage.signMetamask(signPage);
-      }
-      triesLeft--;
-    } while (triesLeft);
-  }
+  //     if (pages > 3) {
+  //       const signPage = this.context.pages()[3];
+  //       await this.metamaskPage.signMetamask(signPage);
+  //     }
+  //     triesLeft--;
+  //   } while (triesLeft);
+  // }
 
-  async connectAndSignMetamask(openedMetamaskPage: Page) {
-    await Promise.all([
-      this.context
-        .waitForEvent("page", { timeout: timeouts.shortTimeout })
-        .then(async () => {
-          const signPage = this.context.pages()[3];
-          await this.metamaskPage.signMetamask(signPage);
-        })
-        .catch(async () => {
-          const signPage = this.context.pages()[3];
-          await this.metamaskPage.signMetamask(signPage);
-        }),
+  // async connectAndSignMetamask(openedMetamaskPage: Page) {
+  //   await Promise.all([
+  //     this.context
+  //       .waitForEvent("page", { timeout: timeouts.shortTimeout })
+  //       .then(async () => {
+  //         const signPage = this.context.pages()[3];
+  //         await this.metamaskPage.signMetamask(signPage);
+  //       })
+  //       .catch(async () => {
+  //         const signPage = this.context.pages()[3];
+  //         await this.metamaskPage.signMetamask(signPage);
+  //       }),
 
-      openedMetamaskPage.click(
-        this.metamaskPage.metamaskElements.connectMetamaskPopUpButton
-      ),
-    ]);
+  //     openedMetamaskPage.click(
+  //       this.metamaskPage.metamaskElements.connectMetamaskPopUpButton
+  //     ),
+  //   ]);
 
-    await this.signMetamaskConnectionIfRequestAppeared();
-  }
+  //   await this.signMetamaskConnectionIfRequestAppeared();
+  // }
 
   async connectpopupMetamask(openedMetamaskPage: Page) {
     await Promise.all([
@@ -95,7 +96,7 @@ export class ConnectWalletScreen extends WebPage {
         .waitForEvent("page", { timeout: timeouts.shortTimeout })
         .then(async () => {
           this.context.pages()[3];
-          await this.metamaskPage.connectMetamask()
+          await this.metamaskPage.connectMetamask();
         })
         .catch(async () => {
           this.context.pages()[3];
@@ -108,10 +109,28 @@ export class ConnectWalletScreen extends WebPage {
     ]);
   }
 
+  async signpopupMetamask(openedMetamaskPage: Page) {
+    await Promise.all([
+      this.context
+        .waitForEvent("page", { timeout: timeouts.shortTimeout })
+        .then(async () => {
+          this.context.pages()[3];
+          await this.metamaskPage.signMetamask();
+        })
+        .catch(async () => {
+          this.context.pages()[3];
+          await this.metamaskPage.signMetamask();
+        }),
+
+      openedMetamaskPage.click(
+        this.metamaskPage.metamaskElements.signMetamaskRequestPopUpButton
+      ),
+    ]);
+  }
+
   async connectMetaMask() {
     await this.clickConnectWalletButton();
     await this.clickGetStartedButton()
-    // await this.clickConnectViaMetamaskButton();
 
     const metamaskPopUpPage = await this.openNewPageByClick(
       this.page,
@@ -122,9 +141,14 @@ export class ConnectWalletScreen extends WebPage {
     );
     
     await this.connectpopupMetamask(metamaskPopUpPage);
+    
+    const firstsignmetamaskPopUpPage = await this.openNewPageByClick(
+      this.page,
+      this.sendRequestsButtonSelector
+    );
+    await firstsignmetamaskPopUpPage.click(
+      this.metamaskPage.metamaskElements.signMetamaskRequestPopUpButton
+    );
 
-    // await this.emptySpaceClosePopup.click();
-
-    // await expect(this.connectedStatusButton).toBeVisible();
   }
 }

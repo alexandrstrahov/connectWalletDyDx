@@ -6,6 +6,6 @@ export class TopNavigationBar extends WebPage {
 
   constructor(page: Page, context?: BrowserContext) {
     super(page, context);
-    this.farmingLink = page.locator('class="ModalHeader__TitleDiv-sc-1kws0v-0 kTswkf"')
+    this.farmingLink = page.locator('[src="/wallets/metamask.svg"]')
   }
 }

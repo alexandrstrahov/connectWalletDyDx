@@ -25,6 +25,10 @@ export class MetamaskPageElements {
   readonly createNewWalletButton: Locator;
   readonly revealSeedPhraseButton: Locator;
   readonly seedPhraseBlock: Locator;
+  readonly networkDropdown: Locator;
+  readonly showHideNetworks: Locator;
+  readonly showTestNetworksToggle: Locator;
+  readonly ropstenTestNetworkItem: Locator;
 
   constructor(page: Page) {
     this.confirmButton = page.locator('button');
@@ -41,7 +45,8 @@ export class MetamaskPageElements {
     this.declineButton = ('[class="button btn--rounded btn-secondary"]');
     this.nextMetamaskPopUpButton = ('[class="button btn--rounded btn-primary"]');
     this.connectMetamaskPopUpButton = ('[data-testid="page-container-footer-next"]');
-    this.signMetamaskRequestPopUpButton = ('[data-testid="request-signature__sign"]');
+    // this.signMetamaskRequestPopUpButton = ('[data-testid="request-signature__sign"]');
+    this.signMetamaskRequestPopUpButton = ('text=Sign');
     this.copyMetamaskAccountAddressButton = page.locator('[class="qr-code__address"]');
     this.optionMenuButton = page.locator('[data-testid="account-options-menu-button"]');
     this.accountDetailsMenuButton = page.locator('[data-testid="account-options-menu__account-details"]');
@@ -49,5 +54,10 @@ export class MetamaskPageElements {
     this.createNewWalletButton = page.locator('(//button)[2]');
     this.revealSeedPhraseButton = page.locator('.reveal-seed-phrase__reveal-button');
     this.seedPhraseBlock = page.locator('[class="reveal-seed-phrase__secret-words notranslate"]');
+    this.networkDropdown = page.locator('[class="color-indicator__inner-circle"]')
+    this.showHideNetworks = page.locator('[class="network-dropdown-content--link"]')
+    this.showTestNetworksToggle = page.locator('//*[@id="app-content"]/div/div[3]/div/div[2]/div[2]/div[2]/div[7]/div[2]/div')
+    this.ropstenTestNetworkItem = page.locator('[class="color-indicator color-indicator--filled color-indicator--color-ropsten color-indicator--size-lg"]')
+
   }
 }
