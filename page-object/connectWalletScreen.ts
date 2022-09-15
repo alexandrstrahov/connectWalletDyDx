@@ -17,6 +17,7 @@ export class ConnectWalletScreen extends WebPage {
   readonly showHideNetworkButton: Locator;
   readonly sendRequestsButton: Locator;
   readonly sendRequestsButtonSelector: string = '[class="LinkWalletStep__ButtonContents-sc-90zxqz-8 kNuNYP"]';
+  readonly iAgreeButton: Locator;
 
   constructor(page: Page, context?: BrowserContext) {
     super(page, context);
@@ -28,6 +29,7 @@ export class ConnectWalletScreen extends WebPage {
     this.helpPopUpButton = page.locator('[data-testid="launcher"]');
     this.loaderIcon = page.locator('img[alt="Loading..."]');
     this.sendRequestsButton = page.locator(this.sendRequestsButtonSelector);
+    this.iAgreeButton = page.locator('[class="Button-sc-g18v27-0 bXfrUi"]');
 
   }
 
@@ -42,53 +44,6 @@ export class ConnectWalletScreen extends WebPage {
   async clickConnectViaMetamaskButton() {
     await this.connectViaMetamaskButton.click();
   }
-
-  /*
-  Method checks if there are new sign requests and sign them
-  this is needed for correct working of tests
-  when they are running in parallel
-  */
-
-  // async signMetamaskConnectionIfRequestAppeared() {
-  //   let triesLeft = 5;
-
-  //   do {
-  //     await this.loaderIcon.waitFor({
-  //       state: "detached",
-  //       timeout: timeouts.shortTimeout,
-  //     });
-  //     await this.page.waitForTimeout(timeouts.timeoutForSignWindow);
-
-  //     const pages = await this.context.pages().length;
-
-  //     if (pages > 3) {
-  //       const signPage = this.context.pages()[3];
-  //       await this.metamaskPage.signMetamask(signPage);
-  //     }
-  //     triesLeft--;
-  //   } while (triesLeft);
-  // }
-
-  // async connectAndSignMetamask(openedMetamaskPage: Page) {
-  //   await Promise.all([
-  //     this.context
-  //       .waitForEvent("page", { timeout: timeouts.shortTimeout })
-  //       .then(async () => {
-  //         const signPage = this.context.pages()[3];
-  //         await this.metamaskPage.signMetamask(signPage);
-  //       })
-  //       .catch(async () => {
-  //         const signPage = this.context.pages()[3];
-  //         await this.metamaskPage.signMetamask(signPage);
-  //       }),
-
-  //     openedMetamaskPage.click(
-  //       this.metamaskPage.metamaskElements.connectMetamaskPopUpButton
-  //     ),
-  //   ]);
-
-  //   await this.signMetamaskConnectionIfRequestAppeared();
-  // }
 
   async connectpopupMetamask(openedMetamaskPage: Page) {
     await Promise.all([
@@ -141,12 +96,18 @@ export class ConnectWalletScreen extends WebPage {
     );
     
     await this.connectpopupMetamask(metamaskPopUpPage);
-    
+    // await this.iAgreeButton.click();
+
     const firstsignmetamaskPopUpPage = await this.openNewPageByClick(
       this.page,
       this.sendRequestsButtonSelector
     );
-    await firstsignmetamaskPopUpPage.click(
+
+    const secondsignmetamaskPopUpPage = await this.openNewPageByClick(
+      firstsignmetamaskPopUpPage, 
+      this.metamaskPage.metamaskElements.signMetamaskRequestPopUpButton
+      );
+    await secondsignmetamaskPopUpPage.click(
       this.metamaskPage.metamaskElements.signMetamaskRequestPopUpButton
     );
 

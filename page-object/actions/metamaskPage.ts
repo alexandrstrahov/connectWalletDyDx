@@ -131,6 +131,6 @@ export class MetamaskPage extends WebPage {
     await this.metamaskElements.showHideNetworks.click();
     await this.metamaskElements.showTestNetworksToggle.click();
     await this.metamaskElements.networkDropdown.click();
-    await this.metamaskElements.ropstenTestNetworkItem.click();
+    await this.metamaskElements.goerliTestNetworkItem.click();
   }
 }

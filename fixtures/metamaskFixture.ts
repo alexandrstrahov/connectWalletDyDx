@@ -4,6 +4,7 @@ import { KycScreen } from "../page-object/kycScreen";
 import { MetamaskPage } from "../page-object/actions/metamaskPage";
 import { WebPage } from "../page-object/webPage";
 import { TopNavigationBar } from "../page-object/topNavigationBar";
+import {TradePage} from "../page-object/tradePage";
 
 type ixsFixtures = {
   connectWalletScreen: ConnectWalletScreen;
@@ -11,6 +12,7 @@ type ixsFixtures = {
   metamaskPage: MetamaskPage;
   topNavigationBar: TopNavigationBar;
   webPage: WebPage;
+  tradePage: TradePage;
 };
 
 export const test = base.extend<ixsFixtures>({
@@ -73,4 +75,9 @@ export const test = base.extend<ixsFixtures>({
 
     await use(new KycScreen(page));
   },
+
+  tradePage: async ({ page, context }, use) => {
+    await use(new TradePage(page, context));
+  },
+
 });
