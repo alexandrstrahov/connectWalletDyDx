@@ -4,7 +4,7 @@ import { KycScreen } from "../page-object/kycScreen";
 import { MetamaskPage } from "../page-object/actions/metamaskPage";
 import { WebPage } from "../page-object/webPage";
 import { TopNavigationBar } from "../page-object/topNavigationBar";
-import {TradePage} from "../page-object/tradePage";
+import { TradePage } from "../page-object/tradePage";
 
 type ixsFixtures = {
   connectWalletScreen: ConnectWalletScreen;
