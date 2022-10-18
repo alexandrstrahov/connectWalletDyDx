@@ -7,7 +7,7 @@ export interface dataForTrading {
 
 export const testData: dataForTrading = {
   amountOfTokens: "1",
-  limitPrice: "1580",
-  priceColumnData: "$1,580.0",
+  limitPrice: "1100",
+  priceColumnData: "$1,100.0",
   textForNoOrders: "You have no orders.",
 };

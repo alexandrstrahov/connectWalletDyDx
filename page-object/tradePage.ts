@@ -9,7 +9,7 @@ export class TradePage extends WebPage {
   readonly amountField: Locator;
   readonly limitPriceField: Locator;
   readonly placeLimitOrderButton: Locator;
-  readonly limitPopupToaster: Locator;
+  readonly popupToaster: Locator;
   readonly ordersButton: Locator;
   readonly amountColumn: Locator;
   readonly priceColumn: Locator;
@@ -34,16 +34,16 @@ export class TradePage extends WebPage {
     this.placeLimitOrderButton = page.locator(
       '[class="Button-sc-g18v27-0 jKcMKm"]'
     );
-    this.limitPopupToaster = page.locator('[class="_1T_ELsmlDNBuJyhddoh6f0"]');
+    this.popupToaster = page.locator('[class="_1T_ELsmlDNBuJyhddoh6f0"]');
     this.ordersButton = page.locator('//*[contains(text(),"Orders")]//div');
     this.amountColumn = page.locator(
-      '//*[@class="ALf30MHd8KnZyeBD-Rv3X _2oMYIpmpA6g5vhAtgmdTP_"]/span[1]'
+      '//*[@class="KppR3Fmfb5DtjqHBvq0_h"]/div[1]/div[3]/div/span[1]/span'
     );
     this.priceColumn = page.locator(
-      '//*[contains(@class, "ALf30MHd8KnZyeBD-Rv3X")]//span[contains(text(),"$")]'
+      '//*[@class="KppR3Fmfb5DtjqHBvq0_h"]/div[1]/div[4]/div/span'
     );
     this.cancelOredrButton = page.locator(
-      '//*[contains(@class, "OrderRow__IconButton")]'
+      '//*[@class="KppR3Fmfb5DtjqHBvq0_h"]/div[1]/div[7]/div/div/div[1]/div'
     );
     this.noOrdersText = page.locator('[class="_1tKGP2FGCUh6cxrk-YWdeo"]');
   }
@@ -56,11 +56,11 @@ export class TradePage extends WebPage {
     await this.confirmDepositButton.click();
   }
 
-  async fillingAmountField(amountOfTokens) {
+  async fillAmountField(amountOfTokens) {
     await this.amountField.fill(amountOfTokens);
   }
 
-  async fillingLimitPriceField(limitPrice) {
+  async fillLimitPriceField(limitPrice) {
     await this.limitPriceField.fill(limitPrice);
   }
 
