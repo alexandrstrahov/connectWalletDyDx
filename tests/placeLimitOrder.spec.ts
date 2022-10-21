@@ -34,11 +34,19 @@ test.describe("Connect Metamask Wallet", async () => {
     page,
     tradePage,
   }) => {
-    // await page.pause()
-    await tradePage.clickOrdersButton();
-    await tradePage.cancelPreviusCanceledOrder();
+    await page.pause();
+    await test.step("Create Limit Order", async () => {
+      await tradePage.fillAmountField(testData.amountOfTokens);
+      await tradePage.fillLimitPriceField(testData.limitPrice);
+      await tradePage.placeLimitOrder();
+      await expect(tradePage.popupToaster).toBeVisible();
+    });
+    await test.step("Cancel Limit Order", async () => {
+      await tradePage.clickOrdersButton();
+      await tradePage.cancelPreviusCanceledOrder();
 
-    await expect(tradePage.popupToaster).toBeVisible();
-    await tradePage.cancelPreviusCanceledOrder();
+      await expect(tradePage.popupToaster).toBeVisible();
+      await tradePage.cancelPreviusCanceledOrder();
+    });
   });
 });
