@@ -34,7 +34,7 @@ test.describe("Connect Metamask Wallet", async () => {
     page,
     tradePage,
   }) => {
-    await page.pause();
+    // await page.pause();
     await test.step("Create Limit Order", async () => {
       await tradePage.fillAmountField(testData.amountOfTokens);
       await tradePage.fillLimitPriceField(testData.limitPrice);
